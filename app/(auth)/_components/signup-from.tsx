@@ -27,18 +27,18 @@ export const SignupForm = () => {
 
   return (
     <div className="w-full max-w-sm mt-6 border border-gray-800 rounded-xl p-6 flex flex-col items-center bg-black/40 backdrop-blur">
-      {/* Title */}
+ 
       <h1 className="text-2xl md:text-4xl font-bold text-white tracking-wide">
         Create Account
       </h1>
       <p className="text-gray-400 text-sm mt-1">Sign up to get started</p>
 
-      {/* Form Fields */}
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full mt-6 flex flex-col space-y-4"
       >
-        {/* Name Fields */}
+  
         <div className="flex space-x-2">
           <div className="w-1/2">
             <input
@@ -69,7 +69,7 @@ export const SignupForm = () => {
           </div>
         </div>
 
-        {/* Email */}
+       
         <div>
           <input
             {...register("email")}
@@ -82,7 +82,7 @@ export const SignupForm = () => {
           )}
         </div>
 
-        {/* Password */}
+      
         <div>
           <input
             {...register("password")}
@@ -97,7 +97,7 @@ export const SignupForm = () => {
           )}
         </div>
 
-        {/* Submit button */}
+      
         <button
           type="submit"
           disabled={isSubmitting}
@@ -107,7 +107,7 @@ export const SignupForm = () => {
         </button>
       </form>
 
-      {/* Divider */}
+
       <div className="w-full flex items-center my-5">
         <hr className="flex-grow border-gray-700" />
         <span className="px-3 text-gray-500 text-sm">OR</span>
@@ -122,7 +122,7 @@ export const SignupForm = () => {
           <span className="text-sm font-medium">Google</span>
         </button>
 
-        {/* GitHub */}
+   
         <button className="flex items-center justify-center gap-2 w-1/2 h-10 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition">
           <FiGithub className="text-xl" />
           <span className="text-sm font-medium">GitHub</span>
