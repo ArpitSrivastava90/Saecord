@@ -7,6 +7,7 @@ import { FiGithub } from "react-icons/fi";
 import { SignupSchema } from "@/lib/validations";
 import { z } from "zod";
 import Link from "next/link";
+import { ButtonForm } from "./button-com";
 
 type SignupFormData = z.infer<typeof SignupSchema>;
 
@@ -111,13 +112,7 @@ export const SignupForm = () => {
           )}
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full h-11 bg-cyan-600 text-white rounded-md font-medium hover:bg-cyan-700 transition disabled:opacity-50"
-        >
-          {isSubmitting ? "Signing up..." : "Sign Up"}
-        </button>
+        <ButtonForm type="submit" children="Sign Up" />
       </form>
 
       <p className="text-gray-400 text-sm mt-5">

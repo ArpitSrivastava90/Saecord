@@ -7,7 +7,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaGoogle } from "react-icons/fa";
 import { FiGithub } from "react-icons/fi";
-import { SigninSchema } from "@/lib/validations"; 
+import { SigninSchema } from "@/lib/validations";
+import { InputField } from "./input-comp";
+import { ButtonForm } from "./button-com";
 
 type SigninFormData = z.infer<typeof SigninSchema>;
 
@@ -45,7 +47,6 @@ const SigninDeskForm = () => {
             Sign in to continue
           </p>
 
-       
           <div className="flex gap-4 mb-6">
             <button className="flex items-center justify-center gap-2 w-1/2 h-10 bg-gray-800 rounded-md hover:bg-gray-700 transition">
               <FaGoogle className="text-red-500" />
@@ -57,55 +58,38 @@ const SigninDeskForm = () => {
             </button>
           </div>
 
-      
           <div className="flex items-center my-5">
             <hr className="flex-grow border-gray-700" />
             <span className="px-3 text-gray-500 text-sm">OR</span>
             <hr className="flex-grow border-gray-700" />
           </div>
 
-        
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col space-y-4"
           >
-    
             <div>
-              <input
-                {...register("email")}
+              <InputField
+                name="email"
+                placeholder="email"
+                register={register}
                 type="email"
-                placeholder="Email"
-                className="h-11 w-full px-3 rounded-md bg-gray-800 text-white outline-none border border-gray-700 focus:border-cyan-500"
+                error={errors.email}
+                className="w-full h-11"
               />
-              {errors.email && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.email.message}
-                </p>
-              )}
             </div>
 
-         
             <div>
-              <input
-                {...register("password")}
+              <InputField
+                name="password"
                 type="password"
                 placeholder="Password"
-                className="h-11 w-full px-3 rounded-md bg-gray-800 text-white outline-none border border-gray-700 focus:border-cyan-500"
+                register={register}
+                error={errors.password}
+                className="w-full h-11"
               />
-              {errors.password && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.password.message}
-                </p>
-              )}
             </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="h-11 w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-md font-semibold shadow-md hover:from-cyan-600 hover:to-blue-700 focus:ring-2 focus:ring-cyan-400 focus:outline-none transition duration-300 disabled:opacity-70"
-            >
-              {isSubmitting ? "Signing in..." : "Sign In"}
-            </button>
+            <ButtonForm type="submit" children="Sign In" />
           </form>
 
           <p className="text-gray-400 text-sm text-center mt-4">

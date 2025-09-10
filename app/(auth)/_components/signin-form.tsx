@@ -7,6 +7,8 @@ import { FaGoogle } from "react-icons/fa";
 import { FiGithub } from "react-icons/fi";
 import { z } from "zod";
 import Link from "next/link";
+import { InputField } from "./input-comp";
+import { ButtonForm } from "./button-com";
 
 type SigninFormData = z.infer<typeof SigninSchema>;
 
@@ -55,38 +57,28 @@ export const SigninForm = () => {
         className="w-full flex flex-col space-y-4"
       >
         <div>
-          <input
-            {...register("email")}
+          <InputField
+            name="email"
+            placeholder="email"
+            register={register}
             type="email"
-            placeholder="E-mail"
-            className="w-full h-11 bg-gray-900 outline-none px-3 text-white rounded-md border border-gray-700 focus:border-cyan-500 transition"
+            error={errors.email}
+            className="w-full h-11"
           />
-          {errors.email && (
-            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
-          )}
         </div>
 
         <div>
-          <input
-            {...register("password")}
+          <InputField
+            name="password"
             type="password"
             placeholder="Password"
-            className="w-full h-11 bg-gray-900 outline-none px-3 text-white rounded-md border border-gray-700 focus:border-cyan-500 transition"
+            register={register}
+            error={errors.password}
+            className="w-full h-11"
           />
-          {errors.password && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.password.message}
-            </p>
-          )}
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full h-11 bg-cyan-600 text-white rounded-md font-medium hover:bg-cyan-700 transition disabled:opacity-50"
-        >
-          {isSubmitting ? "Signing in..." : "Sign In"}
-        </button>
+        <ButtonForm type="submit" children="Sign in" />
       </form>
 
       <p className="text-gray-400 text-sm mt-6">

@@ -8,6 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FaGoogle } from "react-icons/fa";
 import { FiGithub } from "react-icons/fi";
 import { SignupSchema } from "@/lib/validations";
+import { InputField } from "./input-comp";
+import { ButtonForm } from "./button-com";
 
 type SignupFormData = z.infer<typeof SignupSchema>;
 
@@ -28,7 +30,7 @@ const SignupDeskForm = () => {
   };
 
   return (
-    <div className="hidden md:flex w-full h-[600px] justify-start items-center px-26 gap-1">
+    <div className="hidden md:flex w-full h-[600px] justify-start items-center px-26 gap-2">
       <div className="w-[400px] h-full relative rounded-l-xl overflow-hidden shadow-lg">
         <Image
           src={img1}
@@ -71,69 +73,51 @@ const SignupDeskForm = () => {
           >
             <div className="flex gap-3">
               <div className="flex-1">
-                <input
-                  {...register("firstname")}
-                  type="text"
+                <InputField
+                  name="firstname"
                   placeholder="Firstname"
-                  className="h-11 w-full px-3 rounded-md bg-gray-800 text-white outline-none border border-gray-700 focus:border-cyan-500"
+                  register={register}
+                  type="text"
+                  error={errors.firstname}
+                  className="w-full h-11"
                 />
-                {errors.firstname && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.firstname.message}
-                  </p>
-                )}
               </div>
               <div className="flex-1">
-                <input
-                  {...register("lastname")}
-                  type="text"
+                <InputField
+                  name="lastname"
                   placeholder="Lastname"
-                  className="h-11 w-full px-3 rounded-md bg-gray-800 text-white outline-none border border-gray-700 focus:border-cyan-500"
+                  register={register}
+                  type="text"
+                  error={errors.lastname}
+                  className="w-full h-11"
                 />
-                {errors.lastname && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.lastname.message}
-                  </p>
-                )}
               </div>
             </div>
 
             {/* Email */}
             <div>
-              <input
-                {...register("email")}
+              <InputField
+                name="email"
+                placeholder="email"
+                register={register}
                 type="email"
-                placeholder="Email"
-                className="h-11 w-full px-3 rounded-md bg-gray-800 text-white outline-none border border-gray-700 focus:border-cyan-500"
+                error={errors.email}
+                className="w-full h-11"
               />
-              {errors.email && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.email.message}
-                </p>
-              )}
             </div>
 
             <div>
-              <input
-                {...register("password")}
+              <InputField
+                name="password"
                 type="password"
                 placeholder="Password"
-                className="h-11 w-full px-3 rounded-md bg-gray-800 text-white outline-none border border-gray-700 focus:border-cyan-500"
+                register={register}
+                error={errors.password}
+                className="w-full h-11"
               />
-              {errors.password && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.password.message}
-                </p>
-              )}
             </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="h-11 w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-md font-semibold shadow-md hover:from-cyan-600 hover:to-blue-700 focus:ring-2 focus:ring-cyan-400 focus:outline-none transition duration-300 disabled:opacity-70"
-            >
-              {isSubmitting ? "Signing up..." : "Sign Up"}
-            </button>
+            <ButtonForm type="submit" children="Sign Up" />
           </form>
 
           <p className="text-gray-400 text-sm text-center mt-4">
