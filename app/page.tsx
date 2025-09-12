@@ -1,3 +1,9 @@
-export default function Home() {
-  return <p>Hello Discord</p>;
-}
+import React from "react";
+
+type Props = {};
+
+const page = (props: Props) => {
+  return <div>name</div>;
+};
+
+export default page;

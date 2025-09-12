@@ -4,11 +4,13 @@ export const SignupSchema = z.object({
   firstname: z
     .string()
     .max(10, "Max 10 character Req")
-    .min(3, "Min 3 character Req"),
+    .min(3, "Min 3 character Req")
+    .optional(),
   lastname: z
     .string()
-    .max(10, "Max 10 characte Reqr")
-    .min(3, "Min 3 character Req"),
+    .max(15, "Max 10 characte Reqr")
+    .min(3, "Min 3 character Req")
+    .optional(),
 
   email: z.string().email("Invalid email address"),
   password: z

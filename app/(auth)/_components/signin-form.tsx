@@ -9,10 +9,13 @@ import { z } from "zod";
 import Link from "next/link";
 import { InputField } from "./input-comp";
 import { ButtonForm } from "./button-com";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type SigninFormData = z.infer<typeof SigninSchema>;
 
 export const SigninForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -23,9 +26,20 @@ export const SigninForm = () => {
     mode: "onBlur",
   });
 
-  const onSubmit = (data: SigninFormData) => {
-    console.log("Sign In Submitted ✅", data);
-    reset();
+  const onSubmit = async (data: SigninFormData) => {
+    try {
+      const res = await signIn("credentials", {
+        ...data,
+        redirect: false,
+      });
+      console.log(res?.status);
+      if (res?.status === 200) {
+        router.push("/");
+      }
+      reset();
+    } catch {
+      console.log("Error in sending axios req");
+    }
   };
 
   return (
@@ -35,12 +49,18 @@ export const SigninForm = () => {
       </h1>
       <p className="text-gray-400 text-sm mt-1">Sign in to continue</p>
       <div className="w-full flex justify-center gap-4 mt-6">
-        <button className="flex items-center justify-center gap-2 w-1/2 h-10 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition">
+        <button
+          onClick={() => signIn("google", { callbackUrl: "/" })}
+          className="flex items-center justify-center gap-2 w-1/2 h-10 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition"
+        >
           <FaGoogle className="text-red-500" />
           <span className="text-sm font-medium">Google</span>
         </button>
 
-        <button className="flex items-center justify-center gap-2 w-1/2 h-10 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition">
+        <button
+          onClick={() => signIn("github", { callbackUrl: "/" })}
+          className="flex items-center justify-center gap-2 w-1/2 h-10 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition"
+        >
           <FiGithub className="text-xl" />
           <span className="text-sm font-medium">GitHub</span>
         </button>
@@ -78,7 +98,7 @@ export const SigninForm = () => {
           />
         </div>
 
-        <ButtonForm type="submit" children="Sign in" />
+        <ButtonForm type="submit" children="Sign In" isLoading={isSubmitting} />
       </form>
 
       <p className="text-gray-400 text-sm mt-6">

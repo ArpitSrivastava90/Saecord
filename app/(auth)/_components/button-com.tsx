@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { LuLoaderCircle } from "react-icons/lu";
 
 interface ButtonProps {
   type?: "button" | "submit" | "reset";
@@ -22,11 +23,15 @@ export const ButtonForm = ({
       type={type}
       disabled={disabled || isLoading}
       className={cn(
-        "h-11 w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-md font-semibold shadow-md hover:from-cyan-600 hover:to-blue-700 focus:ring-2 focus:ring-cyan-400 focus:outline-none transition duration-300 disabled:opacity-70",
+        "h-11 w-full flex items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-md font-semibold shadow-md hover:from-cyan-600 hover:to-blue-700 focus:ring-2 focus:ring-cyan-400 focus:outline-none transition duration-300 disabled:opacity-70",
         className
       )}
     >
-      {isLoading ? "Loading..." : children}
+      {isLoading ? (
+        <LuLoaderCircle className="animate-spin" size={25} />
+      ) : (
+        children
+      )}
     </button>
   );
 };

@@ -8,6 +8,9 @@ import { SignupSchema } from "@/lib/validations";
 import { z } from "zod";
 import Link from "next/link";
 import { ButtonForm } from "./button-com";
+import { api } from "@/lib/api";
+import { InputField } from "./input-comp";
+import { signIn } from "next-auth/react";
 
 type SignupFormData = z.infer<typeof SignupSchema>;
 
@@ -22,9 +25,24 @@ export const SignupForm = () => {
     mode: "onBlur",
   });
 
-  const onSubmit = (data: SignupFormData) => {
-    console.log("Form Submitted", data);
-    reset();
+  const onSubmit = async (data: SignupFormData) => {
+    try {
+      const res = await api.post("/signup", { ...data });
+      console.log("Signup Response:", res.data);
+
+      if (res.data.success) {
+        const loginRes = await signIn("credentials", {
+          email: data.email,
+          password: data.password,
+        });
+
+        console.log("Login after signup:", loginRes);
+      }
+
+      reset();
+    } catch (error) {
+      console.error("Signup error:", error);
+    }
   };
 
   return (
@@ -35,12 +53,18 @@ export const SignupForm = () => {
       <p className="text-gray-400 text-sm mt-1">Sign up to get started</p>
 
       <div className="w-full flex justify-center gap-4 mt-6">
-        <button className="flex items-center justify-center gap-2 w-1/2 h-10 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition">
+        <button
+          onClick={() => signIn("google", { callbackUrl: "/" })}
+          className="flex items-center justify-center gap-2 w-1/2 h-10 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition"
+        >
           <FaGoogle className="text-red-500" />
           <span className="text-sm font-medium">Google</span>
         </button>
 
-        <button className="flex items-center justify-center gap-2 w-1/2 h-10 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition">
+        <button
+          onClick={() => signIn("github", { callbackUrl: "/" })}
+          className="flex items-center justify-center gap-2 w-1/2 h-10 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition"
+        >
           <FiGithub className="text-xl" />
           <span className="text-sm font-medium">GitHub</span>
         </button>
@@ -58,61 +82,51 @@ export const SignupForm = () => {
       >
         <div className="flex space-x-2">
           <div className="w-1/2">
-            <input
-              {...register("firstname")}
-              type="text"
+            <InputField
+              name="firstname"
               placeholder="Firstname"
-              className="w-full h-11 bg-gray-900 outline-none px-3 text-white rounded-md border border-gray-700 focus:border-cyan-500 transition"
+              register={register}
+              type="text"
+              error={errors.firstname}
+              className="w-full h-11"
             />
-            {errors.firstname && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.firstname.message}
-              </p>
-            )}
           </div>
 
           <div className="w-1/2">
-            <input
-              {...register("lastname")}
-              type="text"
+            <InputField
+              name="lastname"
               placeholder="Lastname"
-              className="w-full h-11 bg-gray-900 outline-none px-3 text-white rounded-md border border-gray-700 focus:border-cyan-500 transition"
+              register={register}
+              type="text"
+              error={errors.lastname}
+              className="w-full h-11"
             />
-            {errors.lastname && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.lastname.message}
-              </p>
-            )}
           </div>
         </div>
 
         <div>
-          <input
-            {...register("email")}
+          <InputField
+            name="email"
+            placeholder="email"
+            register={register}
             type="email"
-            placeholder="E-mail"
-            className="w-full h-11 bg-gray-900 outline-none px-3 text-white rounded-md border border-gray-700 focus:border-cyan-500 transition"
+            error={errors.email}
+            className="w-full h-11"
           />
-          {errors.email && (
-            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
-          )}
         </div>
 
         <div>
-          <input
-            {...register("password")}
+          <InputField
+            name="password"
             type="password"
             placeholder="Password"
-            className="w-full h-11 bg-gray-900 outline-none px-3 text-white rounded-md border border-gray-700 focus:border-cyan-500 transition"
+            register={register}
+            error={errors.password}
+            className="w-full h-11"
           />
-          {errors.password && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.password.message}
-            </p>
-          )}
         </div>
 
-        <ButtonForm type="submit" children="Sign Up" />
+        <ButtonForm type="submit" children="Sign Up" isLoading={isSubmitting} />
       </form>
 
       <p className="text-gray-400 text-sm mt-5">
