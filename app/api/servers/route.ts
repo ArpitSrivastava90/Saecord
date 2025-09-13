@@ -15,21 +15,21 @@ export async function POST(req: NextRequest) {
 
     const server = await prisma.server.create({
       data: {
-        profile: { connect: { id: profile.id } }, // connect server owner
+        profile: { connect: { id: profile.id } },
         name,
         imageUrl,
         channels: {
           create: [
             {
               name: "general",
-              profile: { connect: { id: profile.id } }, // connect to profile if relation
+              profile: { connect: { id: profile.id } },
             },
           ],
         },
         members: {
           create: [
             {
-              profile: { connect: { id: profile.id } }, // connect profile properly
+              profile: { connect: { id: profile.id } },
               role: MemberRole.ADMIN,
             },
           ],
