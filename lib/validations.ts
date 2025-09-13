@@ -26,3 +26,8 @@ export const SigninSchema = z.object({
     .min(5, "Min 5 Character Req")
     .max(12, "Max 12 Character Req"),
 });
+
+export const serverFormSchema = z.object({
+  name: z.string().min(1, { message: "Server name is requires" }),
+  imageUrl: z.string().min(1, { message: "Server image is required" }),
+});

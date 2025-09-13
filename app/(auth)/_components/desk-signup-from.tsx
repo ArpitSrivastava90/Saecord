@@ -17,7 +17,6 @@ import { api } from "@/lib/api";
 type SignupFormData = z.infer<typeof SignupSchema>;
 
 const SignupDeskForm = () => {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
